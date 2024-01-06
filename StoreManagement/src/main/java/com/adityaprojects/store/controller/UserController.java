@@ -1,11 +1,18 @@
 package com.adityaprojects.store.controller;
 
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +31,7 @@ import com.adityaprojects.store.dto.UserDto;
 import com.adityaprojects.store.services.FileService;
 import com.adityaprojects.store.services.UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -39,7 +47,7 @@ public class UserController {
 	@Value("${user.profile.image.path}")
 	private String imageUploadPath;
 	
-	
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 
 	// create
@@ -113,5 +121,17 @@ public class UserController {
 	}
 
 	// serve user image
+	@GetMapping("/image/{userId}")
+	public void serveUserImage(@PathVariable String userId,HttpServletResponse response) throws IOException {
+		
+		UserDto user=userService.getUserById(userId);
+		logger.info("User Image name : {} ",user.getImageName());
+		InputStream resource=fileService.getResource(imageUploadPath, user.getImageName());
+		
+		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+		
+		StreamUtils.copy(resource, response.getOutputStream());
+		
+	}
 
 }
