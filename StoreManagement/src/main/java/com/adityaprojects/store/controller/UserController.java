@@ -69,7 +69,7 @@ public class UserController {
 
 	// delete
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<ApiResponseMessage> deleteUser(@PathVariable String userId) {
+	public ResponseEntity<ApiResponseMessage> deleteUser(@PathVariable String userId) throws IOException {
 		userService.deleteUser(userId);
 		ApiResponseMessage message = ApiResponseMessage.builder().message("User is deleted successfully").success(true)
 				.status(HttpStatus.OK).build();

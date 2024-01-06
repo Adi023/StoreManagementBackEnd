@@ -1,5 +1,6 @@
 package com.adityaprojects.store.services;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.adityaprojects.store.dto.PageableResponse;
@@ -14,7 +15,7 @@ public interface UserService {
 	UserDto updateUser(UserDto userDto,String userId);
 	
 	//delete user by id
-	void deleteUser(String userId);
+	void deleteUser(String userId) throws IOException;
 	
 	//get  all user 
 	PageableResponse<UserDto> getAllUser(int pageNumber,int pageSize,String sortBy,String sortDir);
