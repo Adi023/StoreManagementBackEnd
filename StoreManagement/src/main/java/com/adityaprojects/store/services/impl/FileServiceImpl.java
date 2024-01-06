@@ -11,11 +11,14 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.adityaprojects.store.exceptions.BadApiRequest;
+
+import com.adityaprojects.store.exceptions.BadApiRequestException;
 import com.adityaprojects.store.services.FileService;
 
+@Service
 public class FileServiceImpl implements FileService {
 	private Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
@@ -28,11 +31,14 @@ public class FileServiceImpl implements FileService {
 		String filename = UUID.randomUUID().toString();
 		String extention = originalFilename.substring(originalFilename.lastIndexOf("."));
 		String fileNameWithExtension = filename + extention;
-		String fullPathWithFileName = path + File.separator + fileNameWithExtension;
+		String fullPathWithFileName = path  + fileNameWithExtension;
 
+		
+		logger.info("full image path : {} ",fullPathWithFileName);
 		if (extention.equalsIgnoreCase(".png") || extention.equalsIgnoreCase(".jpg")
 				|| extention.equalsIgnoreCase(".jpeg")) {
 			// file save
+			logger.info("file extension is {} ",extention);
 			File folder = new File(path);
 
 			if (!folder.exists()) {
@@ -47,7 +53,7 @@ public class FileServiceImpl implements FileService {
 		}
 
 		else {
-			throw new BadApiRequest("File with this " + extention + " not allowed !!");
+			throw new BadApiRequestException("File with this " + extention + " not allowed !!");
 		}
 
 	}
