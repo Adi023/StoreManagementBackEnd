@@ -111,7 +111,10 @@ public class UserServiceImpl implements UserService {
 		Sort sort = (sortDir.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
 		
 		//pageNumber default start from 0
-		Pageable pagebale = PageRequest.of(pageNumber-1, pageSize,sort);
+		Pageable pagebale = PageRequest.of(pageNumber, pageSize,sort);
+		
+		//if you want pageNumber start with 1 then use this and also check getPageableResponse in Helper class
+		//Pageable pagebale = PageRequest.of(pageNumber-1, pageSize,sort);
 		
 		Page<User> page=userRepository.findAll(pagebale);
 		
