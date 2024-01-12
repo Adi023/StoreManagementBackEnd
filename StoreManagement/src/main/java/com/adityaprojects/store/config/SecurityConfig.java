@@ -57,7 +57,15 @@ public class SecurityConfig {
 //				.failureUrl("error")
 //				.and()
 //				.logout()
-//				.logoutUrl("do-logout");
+//				.logoutUrl("do-logout")
+			http.
+			csrf().disable()
+			.cors().disable()
+			.authorizeRequests()
+			.anyRequest()
+			.authenticated()
+			.and()
+			.httpBasic();
 
 				return http.build();
 	}
