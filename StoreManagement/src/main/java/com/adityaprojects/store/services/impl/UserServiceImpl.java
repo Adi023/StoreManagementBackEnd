@@ -53,14 +53,13 @@ public class UserServiceImpl implements UserService {
 		String userId=UUID.randomUUID().toString();
 		userDto.setUserId(userId);
 		
+		//Encoding password
+		userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		
 		//dto -> Entity
 		User user=dtoToEntity(userDto);
 		
 		User savedUser=userRepository.save(user);
-		
-		//Encoding password
-		userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-		
 		//Entity -> dto
 		UserDto newDto=entityToDto(savedUser);
 		
