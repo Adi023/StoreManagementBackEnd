@@ -23,9 +23,11 @@ import org.springframework.stereotype.Service;
 
 import com.adityaprojects.store.dto.PageableResponse;
 import com.adityaprojects.store.dto.UserDto;
+import com.adityaprojects.store.entities.Role;
 import com.adityaprojects.store.entities.User;
 import com.adityaprojects.store.exceptions.ResourceNotFoundException;
 import com.adityaprojects.store.helper.Helper;
+import com.adityaprojects.store.repositories.RoleRepository;
 import com.adityaprojects.store.repositories.UserRepository;
 import com.adityaprojects.store.services.UserService;
 
@@ -45,6 +47,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Value("${normal.role.id}")
+	private String normalRoleId;
+	
+	@Autowired
+	private RoleRepository roleRepository;
+	
 	private Logger logger=LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Override
@@ -59,7 +67,13 @@ public class UserServiceImpl implements UserService {
 		//dto -> Entity
 		User user=dtoToEntity(userDto);
 		
+		//fetch role of normal and set it to user
+		Role role=roleRepository.findById(normalRoleId).get();
+		
+		user.getRoles().add(role);
+		
 		User savedUser=userRepository.save(user);
+		
 		//Entity -> dto
 		UserDto newDto=entityToDto(savedUser);
 		

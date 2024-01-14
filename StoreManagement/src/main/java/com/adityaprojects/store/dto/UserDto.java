@@ -1,5 +1,8 @@
 package com.adityaprojects.store.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.adityaprojects.store.validate.ImageNameValid;
 
 //import jakarta.validation.constraints.Email;
@@ -42,4 +45,7 @@ public class UserDto {
 	//Custom validator
 	@ImageNameValid
 	private String imageName;
+	
+	private Set<RoleDto> roles=new HashSet<>();
+
 }
