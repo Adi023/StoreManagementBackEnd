@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ import com.adityaprojects.store.security.JwtAuthenticationFilter;
 
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 	
 	@Autowired
@@ -76,6 +78,7 @@ public class SecurityConfig {
 			.permitAll()
 			.requestMatchers(HttpMethod.POST,"/users")
 			.permitAll()
+			.requestMatchers(HttpMethod.DELETE,"/users/**").hasRole("ADMIN")
 			.anyRequest()
 			.authenticated()
 			.and()
