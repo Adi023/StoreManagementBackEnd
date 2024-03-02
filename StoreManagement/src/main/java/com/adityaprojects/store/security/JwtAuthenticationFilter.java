@@ -20,6 +20,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+//## Note : -
+//For any incoming request this filter class gets executed.It checks
+//if the request has a valid JWT token.If it has a valid JWT Token
+//then it sets the Authentication in the context,
+//to specify that the current user is authenticated.
+
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter  {
 
@@ -94,9 +100,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter  {
 		filterChain.doFilter(request, response);
 	}
 }
-
-//## Note : -
-//For any incoming request this filter class gets executed.It checks
-//if the request has a valid JWT token.If it has a valid JWT Token
-//then it sets the Authentication in the context,
-//to specify that the current user is authenticated.
