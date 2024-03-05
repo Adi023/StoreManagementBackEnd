@@ -27,7 +27,6 @@ public class OrderItem {
 	    private  int quantity;
 
 	    private  int totalPrice;
-
 //	    @OneToOne
 //	    @JoinColumn(name = "product_id")
 //	    private  Product product;
